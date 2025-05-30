@@ -32,11 +32,16 @@ resource "kubernetes_manifest" "app_of_apps_helm_repo" {
 }
 
 resource "kubernetes_manifest" "argocd_init_namespace" {
-  manifest   = yamldecode(file("${path.module}/namespace.yaml"))
+  manifest   = yamldecode(file("${path.module}/namespace-init.yaml"))
+  depends_on = [helm_release.argocd]
+}
+
+resource "kubernetes_manifest" "argocd_app_of_apps_namespace" {
+  manifest   = yamldecode(file("${path.module}/namespace-app-of-apps.yaml"))
   depends_on = [helm_release.argocd]
 }
 
 resource "kubernetes_manifest" "app_of_apps" {
   manifest   = yamldecode(file("${path.module}/application.yaml"))
-  depends_on = [kubernetes_manifest.argocd_init_namespace, kubernetes_manifest.app_of_apps_argo_repo, kubernetes_manifest.app_of_apps_helm_repo]
+  depends_on = [kubernetes_manifest.argocd_init_namespace, kubernetes_manifest.argocd_app_of_apps_namespace, kubernetes_manifest.app_of_apps_argo_repo, kubernetes_manifest.app_of_apps_helm_repo]
 }
