@@ -1,0 +1,34 @@
+{{- range $app := .Values.argocdApplications -}}
+{{ if not .disable }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .name }}
+  namespace: {{ .namespace }}
+spec:
+  project: {{ $.Values.global.spec.project }}
+  sources:
+    - repoURL: {{ .repoURL }}
+      chart: {{ .name }}
+      targetRevision: {{ default $.Values.global.spec.source.targetRevision .targetRevision }}
+      helm:
+        valueFiles:
+        - $values/charts/{{ .name }}/values.yaml
+    - repoURL: git@github.com:shion13/argocd-app-of-apps.git
+      targetRevision: HEAD
+      ref: values
+  destination:
+    namespace: {{ default $.Values.global.spec.destination.namespace  .namespace }}
+    server: {{ $.Values.global.spec.destination.server }}
+  syncPolicy:
+    {{- if not .disableAutomated }}
+    automated:
+      prune: false
+      selfHeal: true
+      allowEmpty: false
+    {{- end }}
+    syncOptions:
+      - CreateNamespace=true
+---
+{{- end }}
+{{- end }}

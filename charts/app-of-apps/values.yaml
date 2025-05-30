@@ -1,0 +1,19 @@
+global:
+  env: development
+  valuesFile: values.yaml
+  spec:
+    project: development
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: default
+    source:
+      targetRevision: HEAD
+
+argocdApplications:
+  httpbin-app:
+    disableAutomated: false
+    disable: false
+    name: httpbin
+    namespace: httpbin
+    repoURL: git@github.com:shion13/helm-charts.git
+    targetRevision: HEAD
