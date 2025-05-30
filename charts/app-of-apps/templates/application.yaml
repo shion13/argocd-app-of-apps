@@ -9,11 +9,11 @@ spec:
   project: {{ $.Values.global.spec.project }}
   sources:
     - repoURL: {{ .repoURL }}
-      chart: {{ .name }}
+      chart: {{ $key }}
       targetRevision: {{ default $.Values.global.spec.source.targetRevision .targetRevision }}
       helm:
         valueFiles:
-        - $values/charts/{{ .name }}/values.yaml
+        - $values/values/{{ $key }}-values.yaml
     - repoURL: git@github.com:shion13/argocd-app-of-apps.git
       targetRevision: HEAD
       ref: values
