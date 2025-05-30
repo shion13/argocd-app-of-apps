@@ -1,9 +1,9 @@
-{{- range $app := .Values.argocdApplications -}}
+{{- range $key, $val := .Values.argocdApplications -}}
 {{ if not .disable }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app-of-apps
+  name: {{ $key }}
   namespace: app-of-apps
 spec:
   project: {{ $.Values.global.spec.project }}
