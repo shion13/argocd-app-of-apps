@@ -11,10 +11,6 @@ terraform {
   }
 }
 
-# locals {
-#   argo_values = sensitive(templatefile("${path.module}/values.yaml", {argocd_private_key = indent(7,file("~/.ssh/argocd_ssh")), helm_chart_private_key = indent(7,file("~/.ssh/helm_ssh"))}))
-# }
-
 resource "helm_release" "argocd" {
   name             = "argocd"
   repository       = "https://argoproj.github.io/argo-helm"
