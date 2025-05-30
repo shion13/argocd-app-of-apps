@@ -11,6 +11,7 @@ spec:
     - repoURL: {{ .repoURL }}
       chart: {{ $key }}
       targetRevision: {{ default $.Values.global.spec.source.targetRevision .targetRevision }}
+      path: charts/{{ $key }}
       helm:
         valueFiles:
         - $values/values/{{ $key }}-values.yaml
