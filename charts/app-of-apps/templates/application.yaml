@@ -9,7 +9,6 @@ spec:
   project: {{ $.Values.global.spec.project }}
   sources:
     - repoURL: {{ .repoURL }}
-      chart: {{ $key }}
       targetRevision: {{ default $.Values.global.spec.source.targetRevision .targetRevision }}
       path: charts/{{ $key }}
       helm:
