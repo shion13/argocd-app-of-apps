@@ -1,4 +1,5 @@
 replicaCount: 1
+name: httpbin-1
 
 image:
   repository: kennethreitz/httpbin
