@@ -22,12 +22,12 @@ resource "helm_release" "argocd" {
 }
 
 resource "kubernetes_manifest" "app_of_apps_argo_repo" {
-  manifest   = yamldecode(templatefile("${path.module}/app-of-apps-argo-repo.yaml", {argocd_private_key=indent(4, file("~/.ssh/argocd_ssh"))}))
+  manifest   = yamldecode(templatefile("${path.module}/app-of-apps-argo-repo.yaml", {sshKey= base64encode(file("~/.ssh/argocd_ssh")), type: base64encode("git"), url: base64encode("git@github.com:shion13/argocd-app-of-apps.git")}))
   depends_on = [helm_release.argocd]
 }
 
 resource "kubernetes_manifest" "app_of_apps_helm_repo" {
-  manifest   = yamldecode(templatefile("${path.module}/app-of-apps-helm-repo.yaml", {helm_chart_private_key=indent(4, file("~/.ssh/helm_ssh"))}))
+  manifest   = yamldecode(templatefile("${path.module}/app-of-apps-helm-repo.yaml", {sshKey= base64encode(file("~/.ssh/helm_ssh")), type: base64encode("git"), url: base64encode("git@github.com:shion13/helm-charts.git")}))
   depends_on = [helm_release.argocd]
 }
 
