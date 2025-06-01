@@ -6,7 +6,6 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
   source:
     repoURL: 'git@github.com:shion13/argocd-app-of-apps.git'
     targetRevision: HEAD
