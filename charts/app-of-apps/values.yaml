@@ -2,7 +2,7 @@ global:
   env: development
   valuesFile: values.yaml
   spec:
-    project: development
+    project: default
     destination:
       server: https://kubernetes.default.svc
       namespace: default
